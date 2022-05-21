@@ -2,7 +2,6 @@ import React from 'react';
 import DiaryItem from './DiaryItem';
 
 export default function DiaryList({ onEdit, onRemove, diaryList }) {
-	console.log(diaryList);
 	return (
 		<div className="DiaryList">
 			<h2>DiaryList</h2>
