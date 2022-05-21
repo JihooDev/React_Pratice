@@ -75,6 +75,7 @@ export default function App() {
 	// 1 ) useMemo 의 첫번째 인자에는 콜백함수가 들어간다.
 	// 2 ) 두번째 인자에는 [] (Array)가 들어간다. Array 안에의 값이 변경되야 useMemo 함수를 실행한다
 	// 3 ) useMemo 는 함수가 아니라 값으로 평가 받는다.
+	// ==> return 까지의 연산을 최적화 하고 싶을 때 사용 한다.
 
 	const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
 	//getDiaryAnalysis 함수가 객체를 return 하니까 객체로 비구조화 할당을 통해 받아줌
