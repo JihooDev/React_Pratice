@@ -1,11 +1,36 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
+
+//https://jsonplaceholder.typicode.com/comments
 
 export default function App() {
 	const [data, setData] = useState([]);
 
 	const dataId = useRef(0);
+
+	// API 호출 함수
+	const getData = async () => {
+		// 비동기 처리를 하는 함수 생성
+		const res = await fetch('https://jsonplaceholder.typicode.com/comments').then(res => res.json());
+
+		const initData = res.slice(0, 20).map(it => {
+			return {
+				author: it.email,
+				content: it.body,
+				emotion: Math.floor(Math.random() * 5) + 1, // Math.floor (소수점을 정수로 바꿔줌)
+				created_date: new Date().getTime(),
+				id: dataId.current++,
+			};
+		});
+
+		setData(initData);
+	};
+
+	useEffect(() => {
+		getData();
+		// Mount 시점에 getData 함수를 실행
+	}, []);
 
 	const onCreate = (author, content, emotion) => {
 		const created_date = new Date().getTime();
