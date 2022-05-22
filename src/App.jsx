@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
+import OptimizeTest from './ReactMemo/OptimizeTest2';
 
 export default function App() {
 	const [data, setData] = useState([]);
@@ -63,8 +64,6 @@ export default function App() {
 	};
 
 	const getDiaryAnalysis = useMemo(() => {
-		console.log('일기 분석 시작');
-
 		// 감정점수가 3,4,5 이면 기분이 좋은 것으로 판단
 		const goodCount = data.filter(it => it.emotion >= 3).length; //(기분좋음) filter 로 3 이하인 데이터들은 걸러줌
 		const badCount = data.length - goodCount; // (기분나쁨) 전체의 데이터에 3이하를 걸러준 데이터를 빼줌
@@ -82,6 +81,7 @@ export default function App() {
 
 	return (
 		<div className="App">
+			<OptimizeTest />
 			<DiaryEditor onCreate={onCreate} />
 			<div>전체일기 : {data.length}</div>
 			<div>기분 좋은 일기 갯수 : {goodCount}</div>
