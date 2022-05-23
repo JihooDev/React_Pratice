@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
 import OptimizeTest from './ReactMemo/OptimizeTest2';
@@ -31,7 +31,9 @@ export default function App() {
 		// Mount 시점에 getData 함수를 실행
 	}, []);
 
-	const onCreate = (author, content, emotion) => {
+	const onCreate = useCallback((author, content, emotion) => {
+		// 반환할 콜백함수
+
 		const created_date = new Date().getTime();
 		const newItem = {
 			author,
@@ -45,8 +47,9 @@ export default function App() {
 		dataId.current += 1;
 		// id값을 useRef 값을 증가
 
-		setData([newItem, ...data]);
-	};
+		setData(data => [newItem, ...data]);
+		// setState(상태변화 함수)에 함수를 전달 하는 것 ** 함수형 업데이트 **
+	}, []);
 
 	const onEdit = (targetId, newContent) => {
 		setData(
@@ -81,7 +84,6 @@ export default function App() {
 
 	return (
 		<div className="App">
-			<OptimizeTest />
 			<DiaryEditor onCreate={onCreate} />
 			<div>전체일기 : {data.length}</div>
 			<div>기분 좋은 일기 갯수 : {goodCount}</div>
