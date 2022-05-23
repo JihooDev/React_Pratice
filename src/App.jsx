@@ -51,20 +51,21 @@ export default function App() {
 		// setState(상태변화 함수)에 함수를 전달 하는 것 ** 함수형 업데이트 **
 	}, []);
 
-	const onEdit = (targetId, newContent) => {
+	const onEdit = useCallback((targetId, newContent) => {
 		setData(
-			data.map(it => (it.id === targetId ? { ...it, content: newContent } : it))
+			data => data.map(it => (it.id === targetId ? { ...it, content: newContent } : it))
 			// 각각 모든 요소들이 매개변수로 전달 된 targetId 와 일치한지 검사
 			// 수정 대상이라면 새 콘텐츠로 교체 해주고 아니라면 원래의 데이터를 출력
 			// map 함수로 모든 배열의 모든 요소를 순회해서 변경된 값을 setData에 저장
 		);
-	}; // 매개변수는 어떤 아이디에 어떤 새로운 콘텐츠를 추가할 것인지 해서 2개를 작성
+	}, []); // 매개변수는 어떤 아이디에 어떤 새로운 콘텐츠를 추가할 것인지 해서 2개를 작성
 
-	const onRemove = targetId => {
-		const newDiaryList = data.filter(it => it.id !== targetId);
+	const onRemove = useCallback(targetId => {
+		setData(data => data.filter(it => it.id !== targetId));
+		// setData에 전달되는 파라미터에 최신 state가 전달
+		// 항상 최신 state를 이용하기 위해서는 함수형 업데이트의 인자형 부분을 사용해줘야한다.
 		// targetId를 포함하지 않은 배열들로 바꾼다
-		setData(newDiaryList);
-	};
+	}, []);
 
 	const getDiaryAnalysis = useMemo(() => {
 		// 감정점수가 3,4,5 이면 기분이 좋은 것으로 판단

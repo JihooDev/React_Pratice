@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
-export default function DiaryItem({ author, content, emotion, created_date, id, onRemove, onEdit }) {
+export default React.memo(function DiaryItem({ author, content, emotion, created_date, id, onRemove, onEdit }) {
 	const [isEdit, setIsEdit] = useState(false);
 	// 수정하기에 활용되는 state
 
@@ -36,6 +36,9 @@ export default function DiaryItem({ author, content, emotion, created_date, id, 
 		setLocalContent(content);
 	}; // 작성하다가 수정취소버튼을 눌렀다 다시 눌러도 원래의 값만 출력된다
 
+	useEffect(() => {
+		console.log(`${id}번째 Item 렌더`);
+	});
 	return (
 		<div className="DiaryItem">
 			<div className="info">
@@ -73,4 +76,4 @@ export default function DiaryItem({ author, content, emotion, created_date, id, 
 			)}
 		</div>
 	);
-}
+});
